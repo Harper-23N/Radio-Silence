@@ -79,8 +79,13 @@ def usgs_to_nwsli() -> dict[str, str]:
 
 if __name__ == "__main__":
     kind, sid, a, b = sys.argv[1:5]
-    w = csv.writer(sys.stdout)
+    out_path = sys.argv[5] if len(sys.argv) > 5 else None
+    f = open(out_path, "w", encoding="utf-8", newline="") if out_path else sys.stdout
+    w = csv.writer(f)
     if kind == "usgs":
         w.writerow(["time_utc", "value_ft", "code"]); w.writerows(usgs_continuous(sid, a, b))
     else:
         w.writerow(["time_utc", "value_ft"]); w.writerows(iem_hads(sid, a, b))
+    if out_path:
+        f.close()
+        print(f"saved {out_path}")
