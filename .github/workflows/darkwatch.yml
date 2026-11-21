@@ -1,0 +1,25 @@
+# Copy to .github/workflows/darkwatch.yml in a PUBLIC GitHub repository (Actions minutes are free for public repos).
+# Add your USGS key under Settings > Secrets and variables > Actions > New secret, name USGS_API_KEY.
+# GitHub may delay scheduled runs by several minutes at busy times; record that limitation in your logbook.
+name: darkwatch
+on:
+  schedule:
+    - cron: "7,22,37,52 * * * *"     # every 15 min, off the top of the hour
+  workflow_dispatch: {}
+permissions:
+  contents: write
+jobs:
+  poll:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: python -I code/darkwatch.py data/watchlist.csv data/darkwatch_log.csv --once
+        env: { USGS_API_KEY: "${{ secrets.USGS_API_KEY }}" }
+      - run: |
+          git config user.name "darkwatch-bot"
+          git config user.email "darkwatch-bot@users.noreply.github.com"
+          git add data/darkwatch_log.csv data/darkwatch_log.csv.errors 2>/dev/null || true
+          git commit -m "poll $(date -u +%FT%TZ)" || echo "nothing to commit"
+          git push
