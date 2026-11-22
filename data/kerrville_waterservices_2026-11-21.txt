@@ -1,0 +1,36 @@
+# ---------------------------------- WARNING ----------------------------------------
+# Some of the data that you have obtained from this U.S. Geological Survey database may not 
+# have received Director's approval.  Any such data values are qualified as provisional and 
+# are subject to revision.  Provisional data are released on the condition that neither the 
+# USGS nor the United States Government may be held liable for any damages resulting from its use.
+#  Go to http://help.waterdata.usgs.gov/policies/provisional-data-statement for more information.
+#
+# File-format description:  http://help.waterdata.usgs.gov/faq/about-tab-delimited-output
+# Automated-retrieval info: http://help.waterdata.usgs.gov/faq/automated-retrievals
+#
+# Contact:   gs-w_support_nwisweb@usgs.gov
+# retrieved: 2026-11-21 23:47:28 -05:00	(nadww02)
+#
+# Data for the following 1 site(s) are contained in this file
+#    USGS 08166200 Guadalupe Rv at Kerrville, TX
+# -----------------------------------------------------------------------------------
+#
+# TS_ID - An internal number representing a time series.
+#
+# Data provided for site 08166200
+#    TS_ID       Parameter Description
+#    141478      00065     Gage height, feet
+#
+# Data-value qualification codes included in this output:
+#     A  Approved for publication -- Processing and review completed.
+#
+agency_cd	site_no	datetime	tz_cd	141478_00065	141478_00065_cd
+5s	15s	20d	6s	14n	10s
+USGS	08166200	2025-07-04 02:00	CDT	0.95	A
+USGS	08166200	2025-07-04 02:15	CDT	1.04	A
+USGS	08166200	2025-07-04 02:30	CDT	1.15	A
+USGS	08166200	2025-07-04 02:45	CDT	1.28	A
+USGS	08166200	2025-07-04 03:00	CDT	1.47	A
+USGS	08166200	2025-07-04 03:15	CDT	1.64	A
+USGS	08166200	2025-07-04 03:30	CDT	1.71	A
+USGS	08166200	2025-07-04 06:30	CDT	34.29	A
