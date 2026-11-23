@@ -3,6 +3,10 @@
 recs: list of (t_ms, value_ft) sorted by time, from the Iowa State HADS live-feed copy.
 These are the PILOT thresholds, chosen on the same 7 development floods they were scored on.
 Re-tune on development floods only (Hour 'Tune thresholds ... then lock') before any test-flood use.
+
+Change log
+  Hour 27: spike alarms are now timed at the NEXT reading (the first moment the reversal is known),
+           and the spike check now covers the second-to-last reading (was `i + 2 < len`, now `i + 1 < len`).
 """
 from statistics import median
 
@@ -39,6 +43,9 @@ def silent_alarms(recs, rise_ft=0.5, min_gap_min=60):
 def implausible_alarms(recs, op_max=None, base_margin=150.0, spike_ft=15.0):
     """Negative values (< -0.5 ft), values above the gauge's USGS operational maximum (+1 ft),
     or one-step jumps > spike_ft that come straight back.
+    A spike can only be confirmed when the next reading arrives, so spike alarms are timed at that
+    next reading; the other checks need only the bad reading itself and are timed at it.
+    The last reading cannot be checked for a spike (no next reading yet).
     Pilot lesson: 7 gauges had real crests ABOVE their published operational maximum,
     so op_max alone gives false alarms; consider ceiling = max(op_max, prior record) + margin."""
     out = []
@@ -55,10 +62,11 @@ def implausible_alarms(recs, op_max=None, base_margin=150.0, spike_ft=15.0):
             bad = "above_op_max"
         elif op_max is None and v > base + base_margin:
             bad = "far_above_base"
-        elif i + 2 < len(recs) and abs(v - recs[i - 1][1]) > spike_ft and abs(recs[i + 1][1] - recs[i - 1][1]) < 5:
+        elif i + 1 < len(recs) and abs(v - recs[i - 1][1]) > spike_ft and abs(recs[i + 1][1] - recs[i - 1][1]) < 5:
             bad = "spike"
         if bad:
-            out.append({"t": recs[i][0], "v": v, "why": bad})
+            t = recs[i + 1][0] if bad == "spike" else recs[i][0]
+            out.append({"t": t, "v": v, "why": bad})
     return out
 
 
@@ -93,12 +101,18 @@ if __name__ == "__main__":
     q = 15 * 60000
     calm = [(i * q, 2.0 + 0.01 * (i % 3)) for i in range(40)]
     rise = [(40 * q + i * q, 2.0 + 1.0 * i) for i in range(8)]           # 1 ft per 15 min
-    silent = calm + rise + [(48 * q + 30 * q, 12.0)]                       # 7.5 h gap after rise
+    silent = calm + rise + [(48 * q + 30 * q, 12.0)]                       # ~7.75 h gap after rise
     assert len(silent_alarms(silent)) == 1
-    stuck = calm + rise + [(48 * q + i * q, 9.0) for i in range(12)] + [(60 * q, 5.0)] * 0
+    stuck = calm + rise + [(48 * q + i * q, 9.0) for i in range(12)]       # 3 h stuck at 9.0 ft
     assert len(frozen_alarms(stuck)) == 1
     glitch = calm + [(41 * q, 1310.71)] + [(42 * q + i * q, 2.0) for i in range(5)]
     assert implausible_alarms(glitch, op_max=30)[0]["why"] == "above_op_max"
+    assert implausible_alarms(glitch, op_max=30)[0]["t"] == 41 * q         # one reading is enough: timed at itself
     flash = calm + [(41 * q, 14.60), (42 * q, 26.06), (43 * q, 27.0), (44 * q, 27.5)]
     assert implausible_alarms(flash, op_max=60) == []                      # real 11 ft jump, no reversal
+    # Hour 27 fixes: a spike in the second-to-last reading is caught, and timed when the next reading arrives
+    spike = calm + [(40 * q, 20.0), (41 * q, 2.0)]
+    a = implausible_alarms(spike, op_max=60)
+    assert len(a) == 1 and a[0]["why"] == "spike", a
+    assert a[0]["t"] == 41 * q, a                                          # not 40*q: reversal known only at 41*q
     print("gd_live_rules self-test passed")
