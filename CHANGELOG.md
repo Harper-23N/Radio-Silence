@@ -70,12 +70,15 @@ Effect
 
   A STN event's NOAA window = the earliest start to the latest end of all Flood and Flash Flood records that (a) lie inside the event's lower-48 box and (b) begin between the STN start date and the STN end date (or 30 days after the start if there is no end date), plus 1 day each side. If no records match, the event is dropped.
 
-  Events whose NOAA window spans more than one month are treated as a season of floods and excluded. Set cutoff after seeing window dates but before viewing any outage data.
+  Events whose NOAA window spans more than one month (more than 31 days) are treated as a season of floods and excluded. Set cutoff after seeing window dates but before viewing any outage data.
+  Central US Spring 2019 (91 days) excluded; all other kept events are 29 days or less
+
+  292 (2018 Sep SC DOT Bridge) merged into 283 (Florence): overlapping box and dates; marks flagged Dec 2018–Feb 2019 at bridges on the Pee Dee and Waccamaw rivers, likely Florence flood marks
 
   ## 2026-11-26 — Part B (deadly floods) applied
 
 - Source: NOAA Storm Events details files 2017–2025 (downloaded 2026-11-26,
-  files dated c20261119). Flood and Flash Flood records in the lower 48 only.
+  files dated c20261119).
 - Rule as pre-registered: one flood = one NOAA episode; direct deaths summed
   over its Flood/Flash Flood records; keep episodes with 10 or more.
 - Result: 12 episodes qualified.
@@ -92,5 +95,47 @@ Effect
       NOAA-119185: Arizona, 14–16 Jul 2017, 10 direct deaths
       NOAA-204035: Texas, 10–13 Jun 2025, 13 direct deaths
 - Waverly (dev) has no STN high-water marks, so it had no box. Its box is taken
-  from NOAA episode 162118: west ___, south ___, east ___, north ___.
+  from NOAA episode 162118: west -88.1682, south 35.2834, east -86.8226, north 36.7008.
 - Decided before looking at any outage data for these floods.
+Final list: 17 test floods (15 STN + 2 NOAA Part B) and 7 development floods; see data/events_decisions.csv.
+
+Rules above were set while building the list on 2026-11-26; no gauge outage data for any test flood had been viewed.
+
+## 2026-11-26 — census_pull.py (Hour 33) and a retry fix in gd_fetch.py
+
+What I did
+- Wrote a first draft of code/census_pull.py: loops over data/events.csv, runs the same
+  bbox pull as bbox_pull.py for each flood, skips finished events (_pull_summary.json),
+  skips dev floods unless --include-dev, and logs every site to data/raw/_census_log.csv.
+
+AI-assisted review and fixes (Claude, Anthropic; 26 Nov 2026)
+- I asked Claude to review my draft. It found problems and wrote the fixes below;
+  the code changes in this entry are AI-written, not mine.
+- Bugs found (reproduced with a fake downloader, no USGS calls):
+  1. --force with a new box left the old box's gauge CSVs in the folder, so the census
+     would have analysed gauges outside the box. Fix: the old folder is renamed to
+     <event>__replaced_<time> before saving (nothing is deleted).
+  2. A pull that returned 0 gauges (e.g. a wrong box) was marked finished and never
+     retried. Fix: logged as no_gauges and not marked finished.
+  3. A half-written _pull_summary.json crashed every later run. Fix: summary is written
+     in one step; an unreadable summary is skipped until --force.
+- Added: events.csv is checked before pulling (box order, lower-48 range, dates,
+  dev/test value, duplicate names); script stops if USGS_API_KEY is not set; bbox_pull's
+  "full page but no next link" warning is saved in the summary (replaces the rows % LIMIT check).
+- Non-river filter (promised for Hour 33 in the 21 Nov entry; prereg.md: stream sites only):
+  every site is still downloaded, but marked ST or not_ST using the monitoring-locations
+  collection (bbox + site_type_code=ST). The census analysis must keep only ST rows.
+- gd_fetch.py _get(): now also retries network drops, timeouts and HTTP 500/502/504,
+  and respects Retry-After on 429. Other HTTP errors still fail at once. Also affects bbox_pull.py.
+
+My tests (26 Nov 2026)
+- Caching: ran census_pull.py twice on 2024_november_sc_flood. First run: 39 gauges
+  (all with data), 15,936 rows, 2 pages, 4.3 s. Second run: skipped, 0 s. Caching works.
+- Paging: page 1 held exactly 10,000 rows and the script followed the next link to
+  page 2 (5,936 rows); no paging warning.
+- Stream filter: monitoring-locations query for the Texas box with site_type_code=ST
+  returned 352 sites, all ST; includes 08165500 (Hunt), 08166200 (Kerrville) and
+  08167000 (Comfort); excludes springs 08168000 (Hueco Springs) and 08170990 (Jacobs Well).
+  In the census test, 38 of 39 sites were marked ST; 02196999 was marked not_ST
+  (site type on waterdata.usgs.gov: RV reservoir), correctly excluded by the filter.
+- census_pull.py written; caching works.
