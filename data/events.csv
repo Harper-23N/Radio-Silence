@@ -1,0 +1,25 @@
+event,event_id,dev_or_test,start,end,west,south,east,north,n_hwm,source,notes
+harvey,180,dev,2017-08-25,2017-09-02,-97.9487,27.3528,-92.822,31.2649,2033,STN,"included in the pilot floods, noaa_partB_episodes 119753; 119746"
+waverly,311,dev,2021-08-20,2021-08-25,-88.1682,35.2834,-86.8226,36.7008,0,STN,"used in pilot floods, noaa_partB_episodes 162118"
+yellowstone,319,dev,2022-06-11,2022-06-17,-111.153,44.8514,-108.4687,46.1046,852,STN,pilot floods
+kentucky,321,dev,2022-07-26,2022-08-01,-83.3694,36.9029,-82.5882,37.6282,30,STN,"pilot floods, 172563"
+vermont,334,dev,2023-07-09,2023-07-15,-77.5556,40.9764,-71.7137,45.2072,811,STN,used in pilot floods
+helene,346,dev,2024-09-25,2024-10-01,-85.6411,26.8234,-79.4044,37.1881,262,STN,"used in pilot floods, noaa_partB_episodes 196694; 195887"
+texas,357,dev,2025-07-03,2025-07-08,-100.7262,29.5391,-98.2816,31.7725,681,STN,"used in pilot floods, noaa_partB_episodes 204934"
+2017_july_az_flash_flood_noaa_part_b,NOAA-119185,test,2017-07-14,2017-07-16,-112.6039,34.0268,-110.8163,34.8248,,NOAA Part B,"Part B: 10 direct flood deaths (NOAA episode 119185, Gila and Yavapai counties); no STN event"
+2017_irma,182,test,2017-09-07,2017-10-01,-82.9577,24.299,-78.3667,34.0906,255,STN,255 non-coastal surveyed l48 marks; NOAA window 7 Sep - 1 Oct 2017; box excludes puerto rico
+2018_june_mt_flood,280,test,2018-06-14,2018-06-25,-112.6471,47.2353,-112.1348,47.7471,50,STN,"50 non-coastal, exactly at threshold. STN window 14-25 Jun 2018"
+2018_june_july_ia_flood,307,test,2018-06-20,2018-07-02,-96.4343,41.3505,-93.278,43.4366,280,STN,280 non-coastal; STN window 20 Jun - 2 Jul 2018
+2018_florence,283,test,2018-09-06,2018-09-30,-81.7506,32.4125,-76.0044,38.7058,521,STN,521 non-coastal; NOAA window 6-30 Sep 2018; merged with SC DOT Bridge (292)
+2021_ida,312,test,2021-08-26,2021-09-04,-90.295,29.1028,-73.5151,41.7303,594,STN,"594 non-coastal; STN window 26 Aug - 4 Sep 2021; matches NOAA part B episodes 163555, 162538, 163518"
+2022_ian,325,test,2022-09-23,2022-10-09,-82.8012,24.297,-74.8906,39.0405,76,STN,76 non-coastal ; STN window 23 Sep - 9 Oct 2022
+2022_december_2023_january_ca_flood,327,test,2022-12-26,2023-01-18,-122.3207,34.0303,-119.044,37.3265,67,STN,"NOAA records say it lasted about 3 weeks; window from NOAA records, 26 Dec 2022 - 18 Jan 2023. 67 non-coastal"
+2023_idalia,336,test,2023-08-29,2023-09-01,-80.9505,32.8302,-78.8406,34.5019,54,STN,"NOAAA records say its about 4 days, 29 Aug - 1 Sep 2023, passes. 54 non-coastal"
+2023_december_east_coast_cyclone,339,test,2023-12-14,2023-12-26,-73.2398,43.623,-68.405,45.5182,451,STN,"despite name, it's an inland river flood; STN window 14-26 Dec 2023. 451 non-coastal"
+2024_june_ia_flood,348,test,2024-06-17,2024-07-03,-96.8964,42.2187,-94.8248,43.6836,258,STN,"STN window 17 Jun - 3 Jul 2024 (14 days, not over the limit). 258 non-coastal"
+2024_july_nm_flood_ruidoso_post_fire,343,test,2024-07-18,2024-08-13,-105.9757,33.0545,-105.3535,33.6498,548,STN,NOAA window 18 Jul - 13 Aug 2024. 548 non-coastal
+2024_debby,344,test,2024-08-01,2024-09-01,-81.4602,32.3083,-77.2562,42.1791,266,STN,"NOAA window 1 Aug - 1 Sep 2024 (29 days, within one-month limit). 266 non-coastal"
+2024_november_sc_flood,349,test,2024-11-05,2024-11-08,-82.25,33.0661,-80.6093,33.8888,104,STN,STN window 5 - 8 Nov 2024. 104 non-coastal
+2025_june_tx_flash_flood_noaa_part_b,NOAA-204035,test,2025-06-10,2025-06-13,-99.5444,28.9749,-97.6896,30.9651,,NOAA Part B,"Part B: 13 direct flood deaths (NOAA episode 204035, 8 counties incl. Bexar, Comal, Hays); no STN event"
+2025_july_nm_flood_ruidoso_post_fire,358,test,2025-07-12,2025-07-25,-105.9763,33.0735,-105.3604,33.609,60,STN,"NOAA window 12 - 25 Jul 2025. 60 non-coastal (42 riverine + 18 rural), passes only under the not-coastal rule"
+2025_december_wa_id_or_mt_flood,359,test,2025-12-10,2025-12-13,-116.1414,47.9649,-115.2527,48.7089,161,STN,"NOAA window 10 - 13 Dec 2025 (2 records). 161 non-coastal, all in Montana"
