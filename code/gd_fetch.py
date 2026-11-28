@@ -11,7 +11,8 @@ Get a free api.data.gov key (https://api.waterdata.usgs.gov/signup/) and put it 
 
 Usage examples:
     python -I gd_fetch.py usgs 08165500 2025-07-03T00:00:00Z 2025-07-08T00:00:00Z  > hunt_usgs.csv
-    python -I gd_fetch.py iem  HNTT2    2025-07-03T05:00Z    2025-07-08T05:00Z     > hunt_iem.csv
+    python -I gd_fetch.py iem  HNTT2    2025-07-03T05:00Z    2025-07-08T05:00Z     data/hunt_iem.csv
+    (iem: add --column HGIRGZZ to force one stage column; otherwise the most-filled one is used)
 """
 from __future__ import annotations
 import csv, http.client, io, json, os, sys, time, urllib.error, urllib.parse, urllib.request
@@ -72,18 +73,52 @@ def usgs_continuous(site: str, start: str, end: str, param: str = "00065") -> li
     return rows
 
 
-def iem_hads(nwsli: str, sts: str, ets: str) -> list[tuple[str, float | None]]:
-    """Live-relay copy of the NWS HADS feed archived by Iowa State (all US stations since 9 Dec 2010)."""
+def iem_hads_raw(nwsli: str, sts: str, ets: str) -> list[dict]:
+    """Every row and column Iowa State returns (utc_valid plus one column per SHEF code, e.g. HGIRGZZ)."""
     url = IEM + "?" + urllib.parse.urlencode({"stations": nwsli, "sts": sts, "ets": ets, "what": "txt", "delim": "comma"})
     txt = _get(url).decode()
+    time.sleep(2.5)                                                     # IEM rate-limits bursts (HTTP 429)
     if txt.startswith("Error"):
         return []
-    rdr = csv.DictReader(io.StringIO(txt))
+    return list(csv.DictReader(io.StringIO(txt)))
+
+
+def stage_columns(rows: list[dict]) -> dict[str, int]:
+    """Stage (HG...) columns and how many rows have a value in each, most-filled first."""
+    counts = {}
+    for r in rows:
+        for k, v in r.items():
+            if k and k.startswith("HG") and v not in ("", None):
+                counts[k] = counts.get(k, 0) + 1
+    return dict(sorted(counts.items(), key=lambda kv: (-kv[1], kv[0])))
+
+
+def pick_stage_column(rows: list[dict], column: str | None = None) -> str | None:
+    """ONE stage column for the whole record: the one given, else the one with the most values
+    (ties: alphabetical). Fix 28 Nov 2026: the old code took the first non-empty HG column in EACH row,
+    so stations reporting two stage channels (two sensors or two datums) were mixed into one series."""
+    counts = stage_columns(rows)
+    if column:
+        return column if column in counts else None
+    return next(iter(counts), None)
+
+
+def iem_hads(nwsli: str, sts: str, ets: str, column: str | None = None, info: dict | None = None
+             ) -> list[tuple[str, float | None]]:
+    """Live-relay copy of the NWS HADS feed archived by Iowa State (all US stations since 9 Dec 2010).
+
+    Returns (utc_valid, stage) from ONE stage column (see pick_stage_column). Rows with no value in that
+    column come back as None. Pass a dict as info to get back which column was used and what the
+    other stage columns were (info['stage_col'], info['stage_columns'])."""
+    rows = iem_hads_raw(nwsli, sts, ets)
+    col = pick_stage_column(rows, column)
+    if info is not None:
+        info["stage_col"] = col or ""
+        info["stage_columns"] = stage_columns(rows)
     out = []
-    for r in rdr:
-        hg = [k for k in r if k.startswith("HG") and r[k] not in ("", None)]   # stage columns, e.g. HGIRGZZ
-        out.append((r["utc_valid"], float(r[hg[0]]) if hg else None))
-    time.sleep(2.5)                                                     # IEM rate-limits bursts (HTTP 429)
+    for r in rows:
+        v = r.get(col) if col else None
+        out.append((r["utc_valid"], float(v) if v not in ("", None) else None))
     return out
 
 
@@ -98,13 +133,19 @@ def usgs_to_nwsli() -> dict[str, str]:
 
 if __name__ == "__main__":
     kind, sid, a, b = sys.argv[1:5]
-    out_path = sys.argv[5] if len(sys.argv) > 5 else None
+    out_path = sys.argv[5] if len(sys.argv) > 5 and not sys.argv[5].startswith("--") else None
     f = open(out_path, "w", encoding="utf-8", newline="") if out_path else sys.stdout
     w = csv.writer(f)
     if kind == "usgs":
         w.writerow(["time_utc", "value_ft", "code"]); w.writerows(usgs_continuous(sid, a, b))
     else:
-        w.writerow(["time_utc", "value_ft"]); w.writerows(iem_hads(sid, a, b))
+        info = {}
+        col = sys.argv[sys.argv.index("--column") + 1] if "--column" in sys.argv else None
+        rows = iem_hads(sid, a, b, column=col, info=info)
+        w.writerow(["time_utc", "value_ft", "stage_col"]); w.writerows((t, v, info["stage_col"]) for t, v in rows)
+        if len(info["stage_columns"]) > 1:
+            print(f"NOTE {sid}: {len(info['stage_columns'])} stage columns {info['stage_columns']}; "
+                  f"kept {info['stage_col']}", file=sys.stderr)
     if out_path:
         f.close()
         print(f"saved {out_path}")

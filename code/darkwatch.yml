@@ -1,13 +1,14 @@
 # Copy to .github/workflows/darkwatch.yml in a PUBLIC GitHub repository (Actions minutes are free for public repos).
 # Add your USGS key under Settings > Secrets and variables > Actions > New secret, name USGS_API_KEY.
-# GitHub may delay scheduled runs by several minutes at busy times; record that limitation in your logbook.
+# Scheduled runs are throttled to about once an hour; cron-job.org also starts it every 15 min via workflow_dispatch.
 name: darkwatch
 on:
-  schedule:
-    - cron: "7,22,37,52 * * * *"     # every 15 min, off the top of the hour
-  workflow_dispatch: {}
+  workflow_dispatch: {}              # started by cron-job.org
 permissions:
   contents: write
+concurrency:
+  group: darkwatch
+  cancel-in-progress: false          # runs wait their turn instead of colliding
 jobs:
   poll:
     runs-on: ubuntu-latest
@@ -15,14 +16,15 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: { python-version: "3.12" }
-      - run: python -I code/darkwatch.py data/watchlist.csv data/darkwatch_log.csv --once
+      - run: python -I code/darkwatch.py data/watchlist.csv data/darkwatch_log_v2.csv --once
         env: { USGS_API_KEY: "${{ secrets.USGS_API_KEY }}" }
       - run: |
           git config user.name "darkwatch-bot"
           git config user.email "darkwatch-bot@users.noreply.github.com"
-          git add -- data/darkwatch_log.csv
-          if [ -f data/darkwatch_log.csv.errors ]; then
-            git add -- data/darkwatch_log.csv.errors
-          fi          
+          git add -- data/darkwatch_log_v2.csv
+          if [ -f data/darkwatch_log_v2.csv.errors ]; then
+            git add -- data/darkwatch_log_v2.csv.errors
+          fi
           git commit -m "poll $(date -u +%FT%TZ)" || echo "nothing to commit"
+          git pull --rebase
           git push

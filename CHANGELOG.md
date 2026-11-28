@@ -139,3 +139,5 @@ My tests (26 Nov 2026)
   In the census test, 38 of 39 sites were marked ST; 02196999 was marked not_ST
   (site type on waterdata.usgs.gov: RV reservoir), correctly excluded by the filter.
 - census_pull.py written; caching works.
+
+CHANGELOG_addition_28nov.md

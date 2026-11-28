@@ -44,71 +44,79 @@ def test_estimated_values_do_not_hide_gap():
 
 
 # ---------- rule v2 (logbook 22 Nov 2026) ----------
-# Synthetic series shaped like two hand-check gauges. Real readings are not used here so the tests
-# check the rule's logic only; shapes and times follow the plots in figs/hand/.
+# Synthetic series shaped like hand-check gauges; they test the rule's logic only.
 
 def series(start, n, f, step_min=15):
     t0 = ms(start)
     return [(t0 + k * step_min * 60_000, round(f(k), 2), "A") for k in range(n)]
 
 def test_v2_open_ended_silence_h15():
-    """h15 (USGS 03466500): archive stops on the rise at 02:45Z 28 Sep, inserted crest 75 min later,
-    then only one isolated reading 2.5 days later. v1 finds no gap because no regular reading follows."""
-    rise = series("2024-09-27 15:00", 48, lambda k: 42 + 22.5 * (k / 47) ** 2)    # 42 -> 64.5 ft, last 02:45Z
+    """h15 (USGS 03466500): archive stops on the rise, inserted crest 75 min later, one lone reading
+    2.5 days later. v1 finds no gap because no regular reading follows."""
+    rise = series("2024-09-27 15:00", 48, lambda k: 42 + 22.5 * (k / 47) ** 2)
     assert rise[-1][0] == ms("2024-09-28 02:45")
-    recs = rise + [(ms("2024-09-28 04:00"), 66.03, "A"),                          # inserted crest
-                   (ms("2024-09-30 14:45"), 44.6, "A")]                           # lone reading
-    v1 = analyze(recs)
-    assert not v1.dark1                                     # the bug v2 fixes
+    recs = rise + [(ms("2024-09-28 04:00"), 66.03, "A"), (ms("2024-09-30 14:45"), 44.6, "A")]
+    assert not analyze(recs).dark1
     end = ms("2024-10-01 06:00")
     v2 = analyze(recs, version=2, window_end_ms=end)
     assert v2.dark1 and v2.dark3
     g = v2.dark_gaps[0]
     assert g.open_end and g.v_after is None and g.end == end
     assert g.spans_peak and g.v_before == 64.5 and abs(g.deficit_ft - 1.53) < 0.01
-    assert g.n_inserted_inside == 2                         # crest + lone reading
-    assert analyze(recs, version=2).dark1                   # no window end: falls back to the last reading
+    assert g.n_inserted_inside == 2
+    assert analyze(recs, version=2).dark1
 
 def test_v2_gap_in_slow_rise_h14():
-    """h14 (USGS 08078000): 75-min archive gap while rising ~0.2 ft per 30 min, past half the rise,
-    crest much later. v1 misses it (rate <= 0.3 ft, crest not inside); v2 catches it (rule 8).
-    Control: the same gap BEFORE the half-rise level stays healthy in v2 (like h16's gaps)."""
-    f = lambda k: 10 + 0.1 * k if k <= 240 else 34 - 0.05 * (k - 240)   # 0.4 ft/h to 34 ft at hour 60
+    """h14 (USGS 08078000): 75-min gap in a slow rise past half the rise; v1 misses it, v2 catches it.
+    Control: the same gap before the half-rise level stays healthy."""
+    f = lambda k: 10 + 0.1 * k if k <= 240 else 34 - 0.05 * (k - 240)
     full = series("2017-08-26 00:00", 340, f)
-    def drop(recs, k0):                                    # remove 4 readings -> 75-min gap
+    def drop(recs, k0):
         return [r for i, r in enumerate(recs) if not (k0 <= i < k0 + 4)]
-    late = drop(full, 160)                                 # hour 40, ~26 ft: inside the rise period
-    early = drop(full, 40)                                 # hour 10, ~14 ft: before half the rise (22 ft)
-    assert not analyze(late).dark1                         # v1 misses it
+    late, early = drop(full, 160), drop(full, 40)
+    assert not analyze(late).dark1
     r = analyze(late, version=2)
     assert r.dark1 and not r.dark3
     g = r.dark_gaps[0]
     assert g.in_rise and not g.rising and not g.spans_peak and not g.open_end
     assert abs(g.hours - 1.25) < 0.01 and g.rate30_ft is not None and g.rate30_ft <= 0.3
-    assert not analyze(early, version=2).dark1             # control: gap before the rise period
+    assert not analyze(early, version=2).dark1
 
 def test_v2_data_ending_early_after_crest_h10():
-    """h10 (USGS 08167500): continuous record, crest on 5 Jul, a second small rise on 7 Jul, and the USGS
-    data simply ends at 00:00Z 8 Jul while the window runs to 06:00Z. That is not an outage."""
-    def f(k):                                   # hours k/4 from 3 Jul 00:00Z
+    """h10 (USGS 08167500): data ends 6 h before the window end after the crest: not an outage."""
+    def f(k):
         h = k / 4
         if h < 48: return 1.5
-        if h < 52: return 1.5 + 28.5 * (h - 48) / 4          # crest 30.0 at 5 Jul 04:00Z
-        if h < 100: return 30.0 - 25.0 * (h - 52) / 48       # recession to 5.0
-        return 5.0 + 0.8 * (h - 100)                         # rising again when the data ends
-    recs = series("2025-07-03 00:00", 4 * 120 + 1, f)        # last reading 8 Jul 00:00Z
-    assert recs[-1][0] == ms("2025-07-08 00:00")
+        if h < 52: return 1.5 + 28.5 * (h - 48) / 4
+        if h < 100: return 30.0 - 25.0 * (h - 52) / 48
+        return 5.0 + 0.8 * (h - 100)
+    recs = series("2025-07-03 00:00", 4 * 120 + 1, f)
     r = analyze(recs, version=2, window_end_ms=ms("2025-07-08 06:00"))
-    assert r.all_gaps == 1 and not r.dark1                   # 6-h tail counted as a gap, but not dark
+    assert r.all_gaps == 1 and not r.dark1
 
 def test_v2_keeps_v1_results_on_hunt():
-    """Hunt was dark under v1; v2 must agree and find the same 35-h gap."""
     r1, r2 = analyze(RECS), analyze(RECS, version=2, window_end_ms=ms("2025-07-05 21:25"))
     assert r2.dark1 and r2.dark3
     g1 = max(r1.dark_gaps, key=lambda g: g.hours); g2 = max(r2.dark_gaps, key=lambda g: g.hours)
     assert (g1.start, g1.end, g1.deficit_ft) == (g2.start, g2.end, g2.deficit_ft)
 
+def test_v2_new_api_codes():
+    """Approved readings are kept by v2 too (the 21 Nov fix); Approved|ESTIMATED ones are dropped."""
+    recs = [(t, v, "Approved") for t, v, _ in RECS]
+    assert analyze(recs, version=2, window_end_ms=ms("2025-07-05 21:25")).dark1
+    est = [(t, v, "Approved|ESTIMATED") for t, v, _ in RECS]
+    assert analyze(est, version=2) is not None and not analyze(est, version=2).dark1
+
+def test_v2_known_blind_spot():
+    """Documents a known limit of frozen v2 (28 Nov 2026): a gauge that goes silent for good AT its
+    highest reading, with no inserted crest, is NOT dark. If this test ever fails, the rule changed."""
+    calm = [(ms("2025-07-04 00:00") + k * 900_000, 2.0, "A") for k in range(40)]
+    rise = [(calm[-1][0] + (k + 1) * 900_000, 2.0 + 1.0 * (k + 1), "A") for k in range(20)]
+    r = analyze(calm + rise, version=2, window_end_ms=rise[-1][0] + 48 * 3_600_000)
+    assert r.all_gaps == 1 and not r.dark1
+
 if __name__ == "__main__":
     test_hunt(); test_estimated_values_do_not_hide_gap()
-    test_v2_open_ended_silence_h15(); test_v2_gap_in_slow_rise_h14(); test_v2_data_ending_early_after_crest_h10(); test_v2_keeps_v1_results_on_hunt()
+    test_v2_open_ended_silence_h15(); test_v2_gap_in_slow_rise_h14(); test_v2_data_ending_early_after_crest_h10()
+    test_v2_keeps_v1_results_on_hunt(); test_v2_new_api_codes(); test_v2_known_blind_spot()
     print("all tests passed")

@@ -1,10 +1,14 @@
 """GaugeDark gap detector (Python port of the rule used in the Round 55 pilot).
 
 Input: a list of (time_utc_ms, value_ft, qualifier_string) for ONE gauge and ONE flood window.
-Output: a dict describing the gauge's flood rise and every "dark" gap.
+Output: a GaugeResult describing the gauge's flood rise and every "dark" gap.
+
+Naming: "rule v1" here = the Round 55 pilot rule (the pilot JSON calls it "v3"). The column
+v1rule_dark in data/stations_7floods_v3.csv is NOT this rule; it is Round 54's older rule.
 
 Rule v1 (fixed before looking at results; change it only with a logbook entry):
-  1. Keep numeric values; drop values whose USGS code contains 'e' (estimated).
+  1. Keep numeric values; drop values marked estimated ("ESTIMATED" in the new API, "e" in old codes).
+     Matching is by whole piece of the code, so "Approved" is NOT treated as estimated (fix 21 Nov 2026).
   2. Median reporting interval = median spacing of the remaining readings.
   3. "Inserted" point = a reading that (a) is cut off from BOTH neighbours by >= max(3*median, 45 min), or
      (b) is followed by a gap >= that threshold, arrives off-schedule (>= 1.5*median after the previous reading)
@@ -15,7 +19,8 @@ Rule v1 (fixed before looking at results; change it only with a logbook entry):
      (including inserted crests) falls inside it.
   6. deficit_ft = event maximum - last regular reading before the gap ("how far below the crest it went silent").
 
-Rule v2 (logbook 22 Nov 2026, after the 20-gauge hand-check; v1 is kept unchanged as version=1):
+Rule v2 (logbook 22 Nov 2026, after the 20-gauge hand-check; v1 is kept unchanged as version=1).
+FROZEN after the round-2 validation; v2 is the rule used for the census.
   7. OPEN-ENDED SILENCE: if the last regular reading is followed by >= the rule-4 gap before the end of the
      window, that silence is a gap too (end = window_end_ms, or the last timestamp of any numeric reading if
      no window end is given). v1 needed a regular reading on both sides, so a gauge that went silent and
@@ -24,6 +29,9 @@ Rule v2 (logbook 22 Nov 2026, after the 20-gauge hand-check; v1 is kept unchange
      in the rise period); the "rose > 0.3 ft" test (rule 5) is NOT applied to it. Otherwise data that simply
      ends a few hours before the window end while the river rises again after the flood counts as dark
      (census 22 Nov 2026: hand-check gauge h10, USGS 08167500, data ends 00:00Z, window ends 06:00Z).
+     KNOWN BLIND SPOT (found 28 Nov 2026, not changed because v2 is frozen): a gauge that goes silent for
+     good AT its highest reading, with no inserted crest afterwards, is not dark under rule 7.
+     See test_v2_known_blind_spot in test_gd_gaps.py; report it in Limitations.
   8. RISE PERIOD: a gap is also DARK if it starts during the rise period: at or after the first regular
      reading at or above (minimum + half the total rise), and before the time of the event maximum.
      This matches the labelling card. v1 missed gaps during slow rises (< 0.3 ft per 30 min; gauge h14,
@@ -36,6 +44,16 @@ from dataclasses import dataclass, field
 from statistics import median
 
 MIN = 60_000
+
+# "ESTIMATED" confirmed 21 Nov 2026: new API writes "Approved|ESTIMATED"
+# (seen on discharge at 5 ice-affected gauges, Jan 2024). "e" = old USGS style.
+ESTIMATED_TOKENS = {"e", "ESTIMATED"}
+
+
+def is_estimated(code):
+    """True only if one whole piece of the code means 'estimated'."""
+    pieces = (code or "").replace("+", "|").replace(" ", "|").split("|")
+    return any(p.strip() in ESTIMATED_TOKENS for p in pieces)
 
 
 @dataclass
@@ -78,7 +96,7 @@ class GaugeResult:
 def regular_series(recs):
     """Return (regular readings, inserted readings, median interval) from (t, v, code) tuples."""
     num = [(t, v, c or "") for t, v, c in recs if v is not None]
-    tel = [r for r in num if "e" not in r[2]]
+    tel = [r for r in num if not is_estimated(r[2])]
     tel.sort()
     if len(tel) < 3:
         return tel, [], 15.0
@@ -98,7 +116,7 @@ def analyze(recs, version: int = 1, window_end_ms: int | None = None) -> GaugeRe
     """Run rule v1 (default, reproduces the pilot) or v2 (adds rules 7 and 8; see module docstring)."""
     if version not in (1, 2):
         raise ValueError("version must be 1 or 2")
-    num = [(t, v, c) for t, v, c in recs if v is not None]
+    num = sorted((t, v, c) for t, v, c in recs if v is not None)
     if len(num) < 10:
         return None
     vmax = max(v for _, v, _ in num)
