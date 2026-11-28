@@ -1,4 +1,9 @@
-"""Download IEM HADS CSVs for one of the two gauge batches per event."""
+"""Download IEM HADS CSVs for one of the two gauge batches per event.
+
+28 Nov 2026: iem_hads now uses ONE stage column per station. Every station pulled is logged in
+data/live_stage_cols.csv (which column was used, how many stage columns it had). A station with more than
+one stage column is also printed as a NOTE and written to data/live_flagged.csv.
+"""
 
 import argparse
 import csv
@@ -144,6 +149,24 @@ def save_csv(destination, rows):
         temporary.unlink(missing_ok=True)
 
 
+def log_stage_cols(data, event, station, info):
+    """Append what the downloader chose. Called only after the CSV was saved, so a rerun never double-logs."""
+    cols = info.get("stage_columns") or {}
+    row = (event, station, info.get("stage_col", ""), len(cols),
+           ";".join(f"{c}={n}" for c, n in cols.items()))
+    for name in ("live_stage_cols.csv", "live_flagged.csv"):
+        if name == "live_flagged.csv" and len(cols) <= 1:
+            continue
+        path = data / name
+        new = not path.exists()
+        with path.open("a", encoding="utf-8", newline="") as file:
+            writer = csv.writer(file)
+            if new:
+                writer.writerow(("event", "nwsli", "stage_col_used", "n_stage_columns", "columns_and_counts"))
+            writer.writerow(row)
+    return len(cols) > 1
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--data-dir", type=Path, default=DATA,
@@ -181,10 +204,12 @@ def main():
         # iem_hads already pauses after a CSV response. It returns early on no results.
         pause = PAUSE_SECONDS
         try:
+            info = {}
             rows = iem_hads(
                 station,
                 start.isoformat().replace("+00:00", "Z"),
                 end.isoformat().replace("+00:00", "Z"),
+                info=info,
             )
             if not rows:
                 counts["no record"] += 1
@@ -192,6 +217,7 @@ def main():
                 continue
             pause = 0
             save_csv(destination, rows)
+            flagged = log_stage_cols(args.data_dir, event, station, info)
         except (OSError, ValueError, HTTPException) as exc:
             if isinstance(exc, HTTPError) and exc.code == 429:
                 pause = rate_limit_pause(exc)
@@ -199,11 +225,17 @@ def main():
             print(f"{prefix}: failed ({exc})", file=sys.stderr, flush=True)
         else:
             counts["saved"] += 1
-            print(f"{prefix}: saved", flush=True)
+            if flagged:
+                counts["flagged"] += 1
+                print(f"{prefix}: saved   NOTE: {len(info['stage_columns'])} stage columns, "
+                      f"used {info['stage_col']}", flush=True)
+            else:
+                print(f"{prefix}: saved", flush=True)
 
     if not args.dry_run:
         print(f"Batch {args.batch} complete: {counts['saved']} saved, {counts['existing']} already saved, "
-              f"{counts['no record']} no live record, {counts['failed']} failed.", flush=True)
+              f"{counts['no record']} no live record, {counts['failed']} failed, "
+              f"{counts['flagged']} flagged (more than one stage column).", flush=True)
     return int(counts["failed"] > 0)
 
 
