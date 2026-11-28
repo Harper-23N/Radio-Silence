@@ -1,0 +1,11 @@
+hand_id,event,site,nwsli,rise_ft,max_ft,n,v1_dark,v2_dark,v1_dark3h,v2_dark3h,v2_new_gaps,table_dark1h,error,table_rise_ft,pool
+v01,helene,03465500,EMBT1,32.31,33.88,256,0,1,0,1,open_end,0,,32.31,v2_new_dark
+v02,harvey,08041749,BIPT2,26.28,28.97,393,0,1,0,1,open_end,0,,26.16,v2_new_dark
+v03,harvey,08068275,TMBT2,26.93,165.65,727,0,1,0,1,in_rise,0,,26.9,v2_new_dark
+v04,harvey,08073700,PPTT2,35.55,63.94,749,0,0,0,0,,0,,35.55,v2_healthy
+v05,harvey,08041700,SOLT2,26.42,39.68,769,0,0,0,0,,0,,26.42,v2_healthy
+v06,helene,03460795,HRFT1,21.78,27.03,250,0,1,0,1,open_end,0,,21.78,v2_new_dark
+v07,harvey,08066250,GRIT2,37.38,48.34,767,0,0,0,0,,0,,37.36,v2_healthy
+v08,harvey,08067920,FCWT2,29.73,150.99,769,0,0,0,0,,0,,29.73,v2_healthy
+v09,harvey,08072800,LCAT2,20.85,109.44,327,0,1,0,1,open_end,0,,20.85,v2_new_dark
+v10,texas,08101340,FHHT2,21.67,26.24,1441,0,0,0,0,,0,,21.65,v2_healthy

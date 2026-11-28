@@ -1,0 +1,39 @@
+id,site,event,tier,my_label,archive_failure_expected,status,pilot_rise_ft,rise_ft,v1_dark,v2_dark,error,in_census,big_rise,archive_ok,passes,problem,rise_diff_vs_pilot
+h01,03463300,helene,A random hand check,Live_only_outage,no,counted,25.17,25.21,0,0,,True,True,True,True,,0.04
+h04,04290500,vermont,A random hand check,Archive_only,yes,counted,20.05,20.05,1,1,,True,True,True,True,,0.0
+h05,08166250,texas,A random hand check,Archive_only,yes,counted,36.65,36.65,1,1,,True,True,True,True,,0.0
+h09,08069500,harvey,A random hand check,Archive_only,yes,counted,27.52,27.52,1,1,,True,True,True,True,,0.0
+h11,08076700,harvey,A random hand check,Archive_only,yes,counted,43.21,43.57,1,1,,True,True,True,True,,0.36
+h12,03443000,helene,A random hand check,Real_outage,yes,counted,21.87,22.41,1,1,,True,True,True,True,,0.54
+h13,03479000,helene,A random hand check,Real_outage,yes,counted,27.69,27.69,1,1,,True,True,True,True,,0.0
+h14,08078000,harvey,A random hand check,Archive_only (borderline 75-min gap),yes,counted,23.79,23.83,0,1,,True,True,True,True,,0.04
+h15,03466500,helene,A random hand check,Archive_only,yes,counted,24.14,24.19,0,1,,True,True,True,True,,0.05
+h19,03281500,kentucky,A random hand check,Archive_only (borderline 60-min gap),yes,counted,29.69,29.69,1,1,,True,True,True,True,,0.0
+h20,08070200,harvey,A random hand check,Archive_only,yes,counted,35.35,35.35,1,1,,True,True,True,True,,0.0
+v01,03465500,helene,A random hand check,Real_outage,yes,counted,32.31,32.31,0,1,,True,True,True,True,,0.0
+v02,08041749,harvey,A random hand check,Real_outage,yes,counted,26.16,26.28,0,1,,True,True,True,True,,0.12
+v03,08068275,harvey,A random hand check,Archive_only,yes,counted,26.9,26.93,0,1,,True,True,True,True,,0.03
+v04,08073700,harvey,A random hand check,Wrong_reading,no,counted,35.55,35.55,0,0,,True,True,True,True,,0.0
+v06,03460795,helene,A random hand check,Real_outage,yes,counted,21.78,21.78,0,1,,True,True,True,True,,0.0
+v09,08072800,harvey,A random hand check,Real_outage,yes,counted,20.85,20.85,0,1,,True,True,True,True,,0.0
+row04,08165500,texas,B blind 36 table,SILENT,yes,counted,29.91,29.91,1,1,,True,True,True,True,,0.0
+row06,0344632850,helene,B blind 36 table,SILENT,yes,counted,21.62,22.3,1,1,,True,True,True,True,,0.68
+row07,0344878100,helene,B blind 36 table,SILENT,yes,counted,26.73,26.73,1,1,,True,True,True,True,,0.0
+row08,03453000,helene,B blind 36 table,SILENT,yes,counted,26.02,26.02,1,1,,True,True,True,True,,0.0
+row11,03277300,kentucky,B blind 36 table,SILENT,yes,counted,20.37,20.37,1,1,,True,True,True,True,,0.0
+row14,08074500,harvey,B blind 36 table,SILENT,yes,counted,36.54,36.56,1,1,,True,True,True,True,,0.02
+row15,08074598,harvey,B blind 36 table,SILENT,yes,counted,36.45,36.9,1,1,,True,True,True,True,,0.45
+row16,03451000,helene,B blind 36 table,FROZEN,yes,counted,25.42,25.49,1,1,,True,True,True,True,,0.07
+row18,03456991,helene,B blind 36 table,FROZEN,yes,counted,25.47,25.48,1,1,,True,True,True,True,,0.01
+row20,08068800,harvey,B blind 36 table,FROZEN,yes,counted,27.62,27.62,1,1,,True,True,True,True,,0.0
+row25,08074000,harvey,B blind 36 table,UNDER_READ,yes,counted,40.03,40.3,1,1,,True,True,True,True,,0.27
+row29,08072050,harvey,B blind 36 table,FROZEN,yes,counted,27.21,27.59,1,1,,True,True,True,True,,0.38
+row30,08072600,harvey,B blind 36 table,IMPLAUSIBLE,yes,counted,27.01,27.02,1,1,,True,True,True,True,,0.01
+row31,08074810,harvey,B blind 36 table,IMPLAUSIBLE,yes,counted,21.26,21.26,1,1,,True,True,True,True,,0.0
+row33,02149000,helene,B blind 36 table,FROZEN,yes,counted,23.47,23.53,1,1,,True,True,True,True,,0.06
+row32,08150700,texas,B blind 36 table (replotted 23 Nov),Archive_only,yes,counted,21.73,21.74,1,1,,True,True,True,True,,0.01
+hc7_1,02153200,helene,C hand check 7,CONFIRMED live-only outage,no,counted,22.72,23.36,0,0,,True,True,True,True,,0.64
+hc7_3,03280000,kentucky,C hand check 7,CONFIRMED live-only outage,no,counted,41.48,41.48,0,0,,True,True,True,True,,0.0
+row12,03281000,kentucky,judgement call,SILENT (gap straddles half-rise point),yes,judgement,24.49,24.49,1,1,,True,True,True,True,,0.0
+row01_h07,08104590,texas,judgement call,NO_LIVE_DATA / Unclear,yes,judgement,31.9,31.9,1,1,,True,True,True,True,,0.0
+row02,08104866,texas,judgement call,NO_LIVE_DATA,yes,judgement,30.29,30.29,1,1,,True,True,True,True,,0.0

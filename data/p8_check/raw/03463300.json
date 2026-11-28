@@ -1,0 +1,264 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "02e607d938ff4f99b7cfc47d2c21cf53",
+    "unit_of_measure": "ft",
+    "parameter_name": "Gage height",
+    "parameter_code": "00065",
+    "statistic_id": "00011",
+    "last_modified": "2026-11-23T08:38:30.671548",
+    "begin": "2007-10-01T05:00:00+00:00",
+    "end": "2026-11-23T08:30:00+00:00",
+    "computation_period_identifier": "Points",
+    "computation_identifier": "Instantaneous",
+    "thresholds": [
+     {
+      "Name": "Operational limit (maximum)",
+      "Type": "ThresholdAbove",
+      "Periods": [
+       {
+        "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+        "StartTime": "2026-08-05T10:00:00.0000000-05:00",
+        "AppliedTime": "2026-10-15T14:36:43.2151294Z",
+        "SuppressData": true,
+        "ReferenceValue": 15,
+        "SecondaryReferenceValue": 11.37
+       },
+       {
+        "EndTime": "2024-09-27T00:00:00.0000000-05:00",
+        "StartTime": "2016-10-06T00:00:00.0000000-05:00",
+        "AppliedTime": "2017-04-17T05:30:34.1330988Z",
+        "SuppressData": true,
+        "ReferenceValue": 12.63,
+        "SecondaryReferenceValue": 11.367
+       }
+      ],
+      "Severity": 0,
+      "Description": "Values above a specified threshold limit",
+      "DisplayColor": "#CCCCCC",
+      "ReferenceCode": "Operational limit - high-Public",
+      "ProcessingOrder": "Suppression"
+     },
+     {
+      "Name": "National Weather Service Floodstage",
+      "Type": "None",
+      "Periods": [
+       {
+        "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+        "StartTime": "2016-10-06T00:00:00.0000000-05:00",
+        "AppliedTime": "2017-04-17T05:30:34.8403456Z",
+        "SuppressData": false,
+        "ReferenceValue": 14
+       }
+      ],
+      "Severity": 0,
+      "Description": "Display reference value",
+      "DisplayColor": "#00CCFF",
+      "ReferenceCode": "NWISWeb ref level - Public",
+      "ProcessingOrder": "Suppression"
+     },
+     {
+      "Name": "Operational limit (minimum)",
+      "Type": "ThresholdBelow",
+      "Periods": [
+       {
+        "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+        "StartTime": "2016-10-06T00:00:00.0000000-05:00",
+        "AppliedTime": "2017-04-17T05:30:34.5981963Z",
+        "SuppressData": true,
+        "ReferenceValue": 0.1,
+        "SecondaryReferenceValue": 0.3
+       }
+      ],
+      "Severity": 0,
+      "Description": "Values below a specified threshold limit",
+      "DisplayColor": "#666666",
+      "ReferenceCode": "Operational limit - low-Public",
+      "ProcessingOrder": "Suppression"
+     }
+    ],
+    "sublocation_identifier": null,
+    "primary": "Primary",
+    "monitoring_location_id": "USGS-03463300",
+    "web_description": null,
+    "parameter_description": "Gage height, feet",
+    "parent_time_series_id": "06c31aae293a4b6d8fb244b31577d546",
+    "data_gap_interval": "PT1H12M",
+    "statistics_begin": null
+   },
+   "id": "02e607d938ff4f99b7cfc47d2c21cf53",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -82.1841666666667,
+     35.8313888888889
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "3bc18b97e25e40b0b34edc3e152309ea",
+    "unit_of_measure": "ft",
+    "parameter_name": "Gage height",
+    "parameter_code": "00065",
+    "statistic_id": "00002",
+    "last_modified": "2026-09-30T13:23:40.296869",
+    "begin": "1995-10-01T04:00:00+00:00",
+    "end": "2019-09-30T04:00:00+00:00",
+    "computation_period_identifier": "Daily",
+    "computation_identifier": "Min",
+    "thresholds": [],
+    "sublocation_identifier": null,
+    "primary": "Primary",
+    "monitoring_location_id": "USGS-03463300",
+    "web_description": null,
+    "parameter_description": "Gage height, feet",
+    "parent_time_series_id": "02e607d938ff4f99b7cfc47d2c21cf53",
+    "data_gap_interval": null,
+    "statistics_begin": null
+   },
+   "id": "3bc18b97e25e40b0b34edc3e152309ea",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -82.1841666666667,
+     35.8313888888889
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "56a2e93cd4e8439f826569a7394ffc7f",
+    "unit_of_measure": "ft",
+    "parameter_name": "Gage height",
+    "parameter_code": "00065",
+    "statistic_id": "00003",
+    "last_modified": "2026-11-23T05:37:35.679376",
+    "begin": "1995-10-01T04:00:00+00:00",
+    "end": "2026-11-22T05:00:00+00:00",
+    "computation_period_identifier": "Daily",
+    "computation_identifier": "Mean",
+    "thresholds": [],
+    "sublocation_identifier": null,
+    "primary": "Primary",
+    "monitoring_location_id": "USGS-03463300",
+    "web_description": null,
+    "parameter_description": "Gage height, feet",
+    "parent_time_series_id": "02e607d938ff4f99b7cfc47d2c21cf53",
+    "data_gap_interval": null,
+    "statistics_begin": null
+   },
+   "id": "56a2e93cd4e8439f826569a7394ffc7f",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -82.1841666666667,
+     35.8313888888889
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "6a23a43a53da4405a67f4436819b320b",
+    "unit_of_measure": "ft",
+    "parameter_name": "Gage height",
+    "parameter_code": "00065",
+    "statistic_id": "00001",
+    "last_modified": "2026-09-30T13:23:40.336741",
+    "begin": "1995-10-01T04:00:00+00:00",
+    "end": "2019-09-30T04:00:00+00:00",
+    "computation_period_identifier": "Daily",
+    "computation_identifier": "Max",
+    "thresholds": [],
+    "sublocation_identifier": null,
+    "primary": "Primary",
+    "monitoring_location_id": "USGS-03463300",
+    "web_description": null,
+    "parameter_description": "Gage height, feet",
+    "parent_time_series_id": "02e607d938ff4f99b7cfc47d2c21cf53",
+    "data_gap_interval": null,
+    "statistics_begin": null
+   },
+   "id": "6a23a43a53da4405a67f4436819b320b",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -82.1841666666667,
+     35.8313888888889
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "82755d6753ac49beb7471556c2ecf99e",
+    "unit_of_measure": "ft",
+    "parameter_name": "Gage height",
+    "parameter_code": "00065",
+    "statistic_id": null,
+    "last_modified": "2026-10-11T16:02:36.257163",
+    "begin": "1957-12-20T05:00:00+00:00",
+    "end": "2024-09-27T04:00:00+00:00",
+    "computation_period_identifier": "Water Year",
+    "computation_identifier": "Max At Event Time",
+    "thresholds": [],
+    "sublocation_identifier": null,
+    "primary": "Primary",
+    "monitoring_location_id": "USGS-03463300",
+    "web_description": null,
+    "parameter_description": "Gage height, feet",
+    "parent_time_series_id": "02e607d938ff4f99b7cfc47d2c21cf53",
+    "data_gap_interval": null,
+    "statistics_begin": null
+   },
+   "id": "82755d6753ac49beb7471556c2ecf99e",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -82.1841666666667,
+     35.8313888888889
+    ]
+   }
+  }
+ ],
+ "numberReturned": 5,
+ "links": [
+  {
+   "type": "application/geo+json",
+   "rel": "self",
+   "title": "This document as GeoJSON",
+   "href": "https://api.waterdata.usgs.gov/ogcapi/v1/collections/time-series-metadata/items?f=json&monitoring_location_id=USGS-03463300&parameter_code=00065"
+  },
+  {
+   "rel": "alternate",
+   "type": "application/ld+json",
+   "title": "This document as RDF (JSON-LD)",
+   "href": "https://api.waterdata.usgs.gov/ogcapi/v1/collections/time-series-metadata/items?f=jsonld&monitoring_location_id=USGS-03463300&parameter_code=00065"
+  },
+  {
+   "type": "text/html",
+   "rel": "alternate",
+   "title": "This document as HTML",
+   "href": "https://api.waterdata.usgs.gov/ogcapi/v1/collections/time-series-metadata/items?f=html&monitoring_location_id=USGS-03463300&parameter_code=00065"
+  },
+  {
+   "type": "text/csv; charset=utf-8",
+   "rel": "alternate",
+   "title": "This document as CSV",
+   "href": "https://api.waterdata.usgs.gov/ogcapi/v1/collections/time-series-metadata/items?f=csv&monitoring_location_id=USGS-03463300&parameter_code=00065"
+  },
+  {
+   "type": "application/json",
+   "title": "Time series metadata",
+   "rel": "collection",
+   "href": "https://api.waterdata.usgs.gov/ogcapi/v1/collections/time-series-metadata"
+  }
+ ],
+ "timeStamp": "2026-11-23T16:19:16.266941Z"
+}

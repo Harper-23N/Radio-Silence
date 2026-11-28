@@ -1,0 +1,10 @@
+event_id,name,stn_start,stn_end_used,n_records,n_episodes,noaa_first_begin,noaa_last_end,span_days,window_start,window_end,states,note
+182,2017 Irma,2017-09-03,2017-09-30,44,9,2017-09-08,2017-09-30,22,2017-09-07,2017-10-01,"Florida, Georgia, South Carolina",
+283,2018 Florence,2018-09-07,2018-10-07,303,28,2018-09-07,2018-09-29,22,2018-09-06,2018-09-30,"North Carolina, South Carolina, Virginia, West Virginia",
+288,Central US Spring 2019,2019-03-01,2019-05-31,1332,195,2019-03-01,2019-05-31,91,2019-02-28,2019-06-01,"Arkansas, Illinois, Iowa, Kansas, Missouri, Nebraska, Oklahoma, South Dakota, Texas",
+327,2022 December - 2023 January CA Flood,2022-12-26,2023-01-30,233,13,2022-12-27,2023-01-17,21,2022-12-26,2023-01-18,California,
+336,2023 Idalia,2023-08-28,2023-09-27,15,4,2023-08-30,2023-08-31,1,2023-08-29,2023-09-01,"North Carolina, South Carolina",
+343,2024 July NM Flood - Ruidoso Post-Fire,2024-07-15,2024-08-14,10,6,2024-07-19,2024-08-12,24,2024-07-18,2024-08-13,New Mexico,
+344,2024 Debby,2024-08-01,2024-08-31,381,48,2024-08-02,2024-08-31,29,2024-08-01,2024-09-01,"Georgia, Maryland, New York, North Carolina, Ohio, Pennsylvania, South Carolina, Virginia, West Virginia",
+358,2025 July NM Flood - Ruidoso Post-Fire,2025-07-08,2025-07-24,8,7,2025-07-13,2025-07-24,11,2025-07-12,2025-07-25,New Mexico,
+359,"2025 December (WA, ID, OR, MT) Flood",2025-12-05,2025-12-25,2,1,2025-12-11,2025-12-12,1,2025-12-10,2025-12-13,Montana,

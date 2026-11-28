@@ -1,0 +1,34 @@
+section,item,decision,prompted_by,reason
+method,Blind plotting,Plot titles show only 'Row N'; AI columns hidden in the sheet while labeling,Hour 23 setup,So the AI's label couldn't sway mine; makes the 31/36 agreement meaningful
+method,What the class describes,Judge only what the live feed did inside the archive gap; behavior outside the gap goes in the reason,Row 34 (offset after the gap),The class describes the outage itself
+method,Line breaks,Break plot lines at gaps over 20 min instead of 60 min,Row 13 (exactly 1 h gap drawn as a continuous line),The 60-min setting hid gaps of exactly 1 h
+method,Time zone,"Each event shown in its local time (Eastern for Helene, Kentucky, Vermont; Central for Texas, Harvey; Mountain for Yellowstone)",Comparison with round-2 labels,Matches round-2 labels and what local forecasters saw
+method,Zooming,Zoom with --ymin/--ymax and a narrow window when the scale hides details,"Rows 13, 30; outage 7",Error codes (1310 ft) and 1 h gaps can't be judged at full scale
+rule,Order,"Check the six classes in order; first match wins (NO_LIVE_DATA, IMPLAUSIBLE, FROZEN, SILENT, UNDER_READ, LIVE_PRESENT)","Rows 5, 17, 27, 29 (more than one problem)","Original rules had no order, so mixed cases were labeled inconsistently"
+rule,Flat at impossible level,"A flat line at an impossible level is IMPLAUSIBLE, not FROZEN","Row 17 (stuck at 0.1 ft, below pre-flood level)",A believable stuck value is the dangerous case because forecasters trust it; an impossible one is a different failure
+rule,IMPLAUSIBLE threshold,"IMPLAUSIBLE only if impossible values make up most of the gap (negative < -0.5 ft, error code such as 1310.71, >= 10 ft above crest, or below pre-flood level)","Rows 5 and 27 (a few bad readings, otherwise silent)",A couple of bad readings shouldn't outweigh silence covering the rest of the gap
+rule,FROZEN duration and tolerance,FROZEN: >= 1.5 h within 0.25 ft (was 2 h within 0.1 ft),"Rows 16, 18, 21, 33",Old limits didn't match how the AI actually labeled; row 33 (1.8 h) is the same pattern as row 18
+rule,FROZEN crest condition,FROZEN requires the crest >= 0.5 ft above the stuck value,Row 36 vs a genuinely flat crest,Separates a stuck sensor from a river that is actually flat at its peak
+rule,SILENT coverage,SILENT: live readings for under 50% of the gap (was 20%),"Row 13 (25% coverage, clearly silent)",20% labeled obviously silent gauges as something else
+rule,UNDER_READ cutoff,Kept UNDER_READ at peak > 2 ft below the crest,Row 34 (0.82 ft short),"Any cutoff from 0.83 to 3.1 ft gives the same labels, so the original value was kept"
+rule,Sensitivity,"Only two choices would move any label: a 2 h FROZEN minimum (row 33) or a 0.1 ft tolerance (rows 16, 18, 21)",Threshold check,To report in Methods as a sensitivity check
+label,Row 17 (03455500 helene),FROZEN -> IMPLAUSIBLE,Plot and AI note,"Stuck at ~0.1 ft for 74.5 h, below the ~4.5 ft pre-flood level"
+label,Row 27 (03443000 helene),IMPLAUSIBLE -> SILENT,Plot,1% coverage; the two negative values are only a note
+label,Row 29 (08072050 harvey),IMPLAUSIBLE -> FROZEN,Plot,"Stuck ~5 h at a believable ~28 ft, 0.72 ft below the 28.72 ft crest"
+label,Row 33 (02149000 helene),LIVE_PRESENT -> FROZEN,Plot; comparison with row 18,"1.8 h within 0.08 ft, 0.89 ft below crest; same pattern as row 18"
+label,Row 34 (02162287 helene),First pass UNDER_READ -> final LIVE_PRESENT (agrees with AI),UNDER_READ rule,"Peak 0.82 ft short, under the 2 ft line"
+label,Row 36 (08069500 harvey),LIVE_PRESENT -> FROZEN,Live-feed CSV,Stuck at 67.84-67.89 ft for ~9 h with the 69.60 ft crest inside that stretch; AI had compared the crest with the early live maximum
+result,Class counts (AI -> mine),"SILENT 12->13, FROZEN 8->10, UNDER_READ 2->2, IMPLAUSIBLE 6->5, LIVE_PRESENT 5->3, NO_LIVE_DATA 3->3",--recount on data/my_live_labels.csv,
+result,Agreement,"31 of 36 (86%); disagreements at rows 17, 27, 29, 33, 36",--recount,
+result,Live-feed failures,30 of 36 with my labels (AI: 28),--recount,SILENT + FROZEN + UNDER_READ + IMPLAUSIBLE
+outages,Checks,"Four checks: live silent in the band; archive continues; river rising (> 0.3 ft in 30 min before) or crest inside; archive values real, not estimated",Guide gives no rules for the 7,Confirms each is a real live-only outage that happened when it mattered
+outages,Labels,"CONFIRMED (checks 1-3 pass); CONFIRMED_LOW_STAGE (1-2 pass, 3 fails); NOT_CONFIRMED (1 or 2 fails)",Guide gives no rules for the 7,Separates real outages during the rise from harmless ones and false entries
+outages,#2 06188000 yellowstone,"CONFIRMED_LOW_STAGE, not NOT_CONFIRMED",Plot,Outage was real (~11.5 h live-only) but on a falling river ~12 h after the window crest
+outages,#5 08158927 texas,Kept CONFIRMED despite tiny creek,Rule check 3,"Applied the rule consistently; passes only narrowly, noted in reason and Limitations"
+outages,#7 08075605 harvey,CONFIRMED after zoom,Full-scale plot looked like check 1 failed,Zoom showed a real ~1 h live gap with the 24.08 ft crest inside it
+follow_up,Mixed stage channels,"Record, check before writing gd_live.py",Row 36; outage #1,Live feed alternates between two levels; gd_fetch takes the first stage column in each row
+follow_up,Approved values that look filled,"Record, ask USGS in Hour 25 emails","Outage #1 (1-decimal values, straight-line stretch)",Archive marked Approved with no estimate flag but looks reconstructed
+follow_up,Tidal effect,Note in Limitations,Outage #6 (Turning Basin),Rising check could pass on a tide
+follow_up,Possible filled live values,Note,Row 25 (dead-straight rise),May be estimated values rather than real readings
+follow_up,In-sample rules,Note in Methods; real test in Hour 46,All rules,Rules were fitted to the same 36 gauges they were checked on
+follow_up,AI disclosure,Log in Form 2A prompt log,This session,"AI helped with plotting code, draft rules and draft reasons"

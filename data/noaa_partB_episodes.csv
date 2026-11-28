@@ -1,0 +1,13 @@
+episode_id,deaths_direct,n_records,states,counties,first_begin,last_end,window_start,window_end,n_records_without_coords,west,south,east,north
+119185,10,2,Arizona,"Gila, Yavapai",2017-07-15,2017-07-15,2017-07-14,2017-07-16,0,-112.6039,34.0268,-110.8163,34.8248
+119753,49,72,Texas,"Austin, Brazoria, Chambers, Colorado, Fort Bend, Galveston, Grimes, Harris, Jackson, Liberty, Madison, Matagorda, Montgomery, Polk, San Jacinto, Walker, Waller, Washington, Wharton",2017-08-25,2017-08-31,2017-08-24,2017-09-01,0,-97.2098,28.5326,-94.1275,31.2806
+119746,18,8,Texas,"Hardin, Jasper, Jefferson, Newton, Orange, Tyler",2017-08-26,2017-08-31,2017-08-25,2017-09-01,0,-94.85,29.3546,-93.2958,31.4583
+162118,20,25,Tennessee,"Dickson, Hickman, Houston, Humphreys, Maury, Stewart",2021-08-21,2021-08-21,2021-08-20,2021-08-22,0,-88.1682,35.2834,-86.8226,36.7008
+163555,16,75,New York,"Bronx, Kings, Nassau, New York, Orange, Queens, Richmond, Rockland, Suffolk, Westchester",2021-09-01,2021-09-02,2021-08-31,2021-09-03,0,-74.8687,40.2756,-72.4279,41.6662
+162538,15,17,New Jersey,"Burlington, Camden, Hunterdon, Mercer, Middlesex, Monmouth, Morris, Somerset, Sussex, Warren",2021-09-01,2021-09-02,2021-08-31,2021-09-03,0,-75.3705,39.417,-73.8553,41.5828
+163518,12,54,New Jersey,"Bergen, Essex, Hudson, Passaic, Union",2021-09-01,2021-09-03,2021-08-31,2021-09-04,0,-74.6696,40.3717,-73.6721,41.3805
+172563,39,29,Kentucky,"Bell, Breathitt, Clay, Estill, Floyd, Harlan, Knott, Lee, Letcher, Magoffin, Martin, Owsley, Perry, Pike, Wolfe",2022-07-27,2022-07-30,2022-07-26,2022-07-31,0,-84.2234,36.4575,-82.1212,38.1177
+196694,64,55,North Carolina,"Alexander, Avery, Buncombe, Burke, Cabarrus, Caldwell, Catawba, Cleveland, Gaston, Haywood, Henderson, Jackson, Macon, Madison, Mcdowell, Mecklenburg, Mitchell, Polk, Rutherford, Swain, Transylvania, ",2024-09-25,2024-09-29,2024-09-24,2024-09-30,0,-83.747,34.881,-80.377,36.336
+195887,15,32,Tennessee,"Blount, Carter, Cocke, Greene, Hamblen, Hamilton, Hawkins, Johnson, Knox, Sequatchie, Sevier, Sullivan, Unicoi, Washington",2024-09-25,2024-09-29,2024-09-24,2024-09-30,0,-85.6566,34.8698,-81.5,36.8077
+204035,13,22,Texas,"Atascosa, Bexar, Comal, Gillespie, Guadalupe, Hays, Llano, Medina",2025-06-11,2025-06-12,2025-06-10,2025-06-13,0,-99.5444,28.9749,-97.6896,30.9651
+204934,116,23,Texas,"Bandera, Kendall, Kerr, Llano, Real",2025-07-04,2025-07-04,2025-07-03,2025-07-05,0,-100.0305,29.4123,-98.2467,31.0104

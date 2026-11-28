@@ -1,0 +1,19 @@
+row,site,event,nwsli,live_class,gap_start_utc,gap_h,n_archive,n_live,png,status
+19,04290500,vermont,ESSV1,FROZEN,2023-07-11 23:45,12.75,69,108,figs\dark_rows\19_04290500_vermont.png,ok
+20,08068800,harvey,CCGT2,FROZEN,2017-08-27 23:30,113.5,98,451,figs\dark_rows\20_08068800_harvey.png,ok
+21,08070200,harvey,NCET2,FROZEN,2017-08-29 04:30,14.75,71,349,figs\dark_rows\21_08070200_harvey.png,ok
+22,08075763,harvey,LKWT2,FROZEN,2017-08-27 09:45,26.25,99,813,figs\dark_rows\22_08075763_harvey.png,ok
+23,08076700,harvey,GBLT2,FROZEN,2017-08-28 00:15,112.25,99,682,figs\dark_rows\23_08076700_harvey.png,ok
+24,08166250,texas,GCTT2,UNDER_READ,2025-07-04 11:15,81.0,99,421,figs\dark_rows\24_08166250_texas.png,ok
+25,08074000,harvey,BBST2,UNDER_READ,2017-08-27 20:00,16.75,99,685,figs\dark_rows\25_08074000_harvey.png,ok
+26,02138500,helene,NEBN7,IMPLAUSIBLE,2024-09-27 15:30,76.25,99,396,figs\dark_rows\26_02138500_helene.png,ok
+27,03443000,helene,BLAN7,IMPLAUSIBLE,2024-09-27 19:30,47.75,99,150,figs\dark_rows\27_03443000_helene.png,ok
+28,08066500,harvey,RMYT2,IMPLAUSIBLE,2017-08-27 17:15,1.0,98,127,figs\dark_rows\28_08066500_harvey.png,ok
+29,08072050,harvey,SHLT2,IMPLAUSIBLE,2017-08-29 18:00,14.25,99,352,figs\dark_rows\29_08072050_harvey.png,ok
+30,08072600,harvey,BAHT2,IMPLAUSIBLE,2017-08-28 17:50,70.67,52,504,figs\dark_rows\30_08072600_harvey.png,ok
+31,08074810,harvey,GSST2,IMPLAUSIBLE,2017-08-27 04:30,29.75,99,793,figs\dark_rows\31_08074810_harvey.png,ok
+32,08150700,texas,MLRT2,LIVE_PRESENT,2025-07-04 17:35,73.33,289,1168,figs\dark_rows\32_08150700_texas.png,ok
+33,02149000,helene,COVN7,LIVE_PRESENT,2024-09-27 17:45,2.25,99,106,figs\dark_rows\33_02149000_helene.png,ok
+34,02162287,helene,SSSS1,LIVE_PRESENT,2024-09-27 09:30,13.0,99,149,figs\dark_rows\34_02162287_helene.png,ok
+35,021623950,helene,NSLS1,LIVE_PRESENT,2024-09-27 07:15,7.0,60,125,figs\dark_rows\35_021623950_helene.png,ok
+36,08069500,harvey,HMMT2,LIVE_PRESENT,2017-08-29 17:30,13.5,99,333,figs\dark_rows\36_08069500_harvey.png,ok

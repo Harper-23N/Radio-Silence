@@ -1,0 +1,11 @@
+hand_id,label,borderline,reason
+v01,Real_outage,,"Both feeds silent from 19.5 ft (11:30 EDT 27 Sep, rising) to end of window; 33.88 ft crest inserted. Deficit ~14 ft."
+v02,Real_outage,,"Archive silent from 18.4 ft (20:45 CDT 28 Aug); live kept reading but stopped ~1 h before the inserted 28.97 ft crest (09:00 30 Aug), ~9 ft low. Both silent at crest."
+v03,Archive_only,,"Archive silent 10.75 h near crest (23:00 27 Aug to 09:45 28 Aug); live erratic (166-168 ft, off-chart spikes). Crest 165.65 ft is first reading after gap."
+v04,Wrong_reading,,No gaps. Live 3-4 ft above archive at the 63.94 ft crest (morning 27 Aug). Later live dip (30 Aug) and plunge (1 Sep) outside rise/crest.
+v05,Ok,,No gaps. Both feeds match through the ~26 ft rise and the 39.68 ft crest (14:45 CDT 30 Aug); live ~0.3 ft low near crest.
+v06,Real_outage,,"Both feeds silent from ~22 ft (10:00 EDT 27 Sep, rising steeply) to end of window; 27.03 ft crest (15:15) inserted. Deficit ~5 ft."
+v07,Ok,,No gaps. Both feeds match through the ~37 ft rise and the 48.34 ft crest (19:00 CDT 29 Aug).
+v08,Ok,,No gaps. Both feeds match through the ~30 ft rise and the 150.99 ft crest (18:15 CDT 28 Aug).
+v09,Real_outage,,"Archive silent from 102.7 ft (04:15 CDT 28 Aug, rising) to the inserted 109.44 ft crest (07:00 30 Aug); live frozen ~102.7 ft for ~24 h, then stopped. Both silent at crest. Deficit ~6.7 ft."
+v10,Ok,,No gaps. Both feeds match through a fast ~21 ft rise (morning 7 Jul) and the 26.24 ft crest (10:50 CDT 7 Jul).

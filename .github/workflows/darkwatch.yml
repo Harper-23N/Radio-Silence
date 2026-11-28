@@ -3,7 +3,7 @@
 # Scheduled runs are throttled to about once an hour; cron-job.org also starts it every 15 min via workflow_dispatch.
 name: darkwatch
 on:
-  workflow_dispatch: {}              # started by cron-job.org
+  workflow_dispatch: {}              # started by cron-job.org, token expires march 1, 2027
 permissions:
   contents: write
 concurrency:

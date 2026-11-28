@@ -1,0 +1,134 @@
+site,op_max_ft,nws_flood_stage_ft,op_max_label
+08101200,56.0,,Maximum Operational Gage Height
+08101340,42.3,,Maximum Operational Gage Height
+08104590,34.6,,High Operational Limit - Radar
+0810464660,50.0,,Operational limit (maximum)
+08104866,37.0,,Operational High Limit
+08146000,41.3,24.0,Operational limit (maximum) instrument shelf
+08147000,68.1,30.0,Operational limit (maximum) instrument shelf
+08150700,51.8,13.0,Operational limit (maximum) top of instrument shelf
+08151500,50.0,10.0,Operational limit (maximum)
+08153500,45.66,14.0,Operational limit (maximum) check-bar elevation
+08158927,30.0,,Operational limit (maximum)
+08165500,60.0,10.0,Operational limit (maximum)
+08166140,75.0,,Operational limit (maximum)
+08166200,60.0,9.0,Operational limit (maximum)
+08166250,60.0,,Operational limit (maximum)
+08167000,60.0,21.0,Operational limit (maximum)
+08167200,65.0,,Operational limit (maximum)
+08167500,55.77,30.0,"Operational limit (maximum) Instrument Shelf, 10/2012"
+08168770,100.0,,Operational High Limit
+02138500,26.26,,Operational limit (maximum)
+02140510,24.0,,Operational Limit (Maximum)
+02140991,23.25,18.5,Operational limit (maximum)
+02149000,22.73,,Operational limit (maximum)
+02151500,29.32,12.0,Operational limit (maximum)
+02152474,30.0,20.0,Operational limit (maximum)
+02153200,41.0,16.0,Operational limit (maximum)
+02154500,35.0,,Operational limit (maximum)
+02162287,10.0,,Operational limit (maximum)
+02162290,20.0,,Operational limit (maximum)
+021623950,10.0,,Operational limit (maximum)
+03443000,25.6,16.0,Operational limit (maximum)
+0344632850,24.25,,Operational Limit (maximum)
+03447687,33.0,13.0,Operational limit (maximum)
+0344878100,,,
+03451000,22.8,10.0,Operational limit (maximum)
+03451500,27.6,8.0,Operational limit (maximum)
+03453000,30.0,,Operational limit (maximum)
+03455000,32.0,10.0,Operational limit (maximum)
+03455500,19.36,,Operational limit (maximum)
+03456991,30.0,10.0,Operational limit (maximum)
+03459500,50.0,12.0,Operational limit (maximum)
+03460795,26.7,,Operational limit (maximum)
+03461500,35.0,8.0,Operational limit (maximum)
+03463300,12.63,14.0,Operational limit (maximum)
+03465500,25.0,12.0,Operational limit (maximum)
+03466208,23.0,,Operational limit (maximum)
+03466500,70.0,,Operational limit (maximum)
+03467609,45.0,,Operational limit (maximum)
+03479000,28.3,,Operational limit (maximum)
+03209500,52.72,35.0,Operational limit (maximum) Equipment Limit
+03209800,50.0,40.0,Operational limit (maximum) Equipment Limit
+03212500,45.92,35.0,Operational limit (maximum) Equipment Limit
+03214500,61.6,38.0,Operational limit (maximum) WWCB
+03277300,14.9,,Operational limit (maximum) Equipment limit
+03277500,37.54,20.0,Operational limit (maximum) Equipment Limit
+03280000,50.0,,Operational limit (maximum) Equipment Limit
+03281000,43.33,,Operational limit (maximum) Equipment Limit
+03281500,48.0,27.0,Operational limit (maximum) Equipment Limit
+03282060,45.0,,Operational limit (maximum) Equipment Limit
+03282120,37.1,21.0,Operational limit (maximum) Equipment Limit
+04290500,34.25,,Operational limit (maximum)
+08041500,35.5,17.0,Operational limit (maximum)
+08041700,44.0,25.0,Operational limit (maximum)
+08041749,50.0,,Operational limit (maximum)
+08041780,30.0,,Operational limit (maximum)
+08066250,54.0,36.0,Operational limit (maximum)
+08066300,60.0,20.0,Operational limit (maximum)
+08066500,80.0,40.0,Operational limit (maximum)
+08067000,50.0,26.0,Operational limit (maximum)
+08067500,90.0,28.0,Operational limit (maximum)
+08067650,50.0,,Operational limit (maximum)
+08067920,180.0,,Operational limit (maximum)
+08068000,160.0,115.8,Operational limit (maximum)
+08068090,110.0,,Operational limit (maximum)
+08068275,180.0,,Operational limit (maximum)
+08068325,150.0,26.0,Operational limit (maximum)
+08068500,120.0,,Operational limit (maximum)
+08068740,180.0,,Operational limit (maximum)
+08068800,200.0,122.0,Operational limit (maximum)
+08068900,200.0,102.4,Operational limit (maximum)
+08069000,150.0,82.8,Operational limit (maximum)
+08069500,80.0,,Operational limit (maximum)
+08070000,50.0,19.0,Operational limit (maximum)
+08070200,93.0,58.0,Operational limit (maximum)
+08070500,50.0,18.0,Operational limit (maximum)
+08071000,55.0,13.0,Operational limit (maximum)
+08072050,29.0,10.0,Operational limit (maximum)
+08072300,140.0,,Operational limit (maximum)
+08072600,90.0,,Operational limit (maximum)
+08072800,110.0,,Operational limit (maximum)
+08073100,104.0,,Operational limit (maximum)
+08073500,100.0,,Operational limit (maximum)
+08073600,80.0,71.0,Operational limit (maximum)
+08073700,70.0,50.0,Operational limit (maximum)
+08074000,50.0,23.0,Operational limit (maximum)
+08074500,60.0,48.0,Operational limit (maximum)
+08074540,70.0,,Operational limit (maximum)
+08074598,50.0,,Operational limit (maximum)
+08074710,,,
+08074810,100.0,65.0,Operational limit (maximum) Above instrument shelf
+08075000,100.0,54.0,Operational limit (maximum)
+08075110,40.0,,Operational limit (maximum)
+08075400,90.0,53.0,Operational limit (maximum)
+08075500,40.0,25.47,Operational limit (maximum)
+08075605,60.0,,Operational limit (maximum)
+08075763,45.0,,Operational limit (maximum)
+08075900,110.0,87.0,Operational limit (maximum)
+08076000,80.0,61.0,Operational limit (maximum)
+08076180,80.0,51.0,Operational limit (maximum)
+08076700,50.0,30.0,Operational limit (maximum)
+08077600,50.0,,Operational limit (maximum)
+08078000,50.0,29.0,Operational limit (maximum)
+08111500,60.0,50.0,Operational limit (maximum)
+08111850,130.0,122.5,Operational limit (maximum)
+08114000,60.0,48.0,Operational limit (maximum)
+08116650,60.0,43.0,Operational limit (maximum)
+08116850,35.0,,Operational limit (maximum)
+08117500,,,
+08117705,,,
+08162000,,,
+08162500,,,
+08162600,,,
+03602500,,,
+03603000,,,
+06188000,,,
+0216239615,,,
+03450000,,,
+0344894205,,,
+0347927162,,,
+0347927164,,,
+021556525,,,
+02138816,,,
+08072730,,,

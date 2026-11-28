@@ -1,0 +1,53 @@
+Set-Location -LiteralPath 'C:\Users\fangh\Downloads\RadioSilence' -ErrorAction Stop
+
+@'
+import csv
+import re
+import sys
+from collections import Counter, defaultdict
+from pathlib import Path
+
+sys.path.insert(0, str(Path("code").resolve()))
+from gd_fetch import HADS_MAP, _get
+from site_meta import census_inputs
+
+_, gauges = census_inputs()
+output = Path("data/census_nwsli.csv")
+if output.exists() and output.stat().st_size:
+    raise SystemExit(f"{output} already contains data.")
+
+crossref = defaultdict(set)
+for line in _get(HADS_MAP).decode("utf-8", errors="replace").splitlines():
+    fields = line.split("|")
+    if len(fields) < 3:
+        continue
+    nwsli, site = (value.strip() for value in fields[:2])
+    if site in gauges and re.fullmatch(r"[A-Z0-9]{5}", nwsli):
+        crossref[site].add(nwsli)
+
+if not crossref:
+    raise SystemExit("No census gauges matched in the NOAA station list.")
+
+counts = Counter()
+with output.open("a", encoding="utf-8", newline="") as file:
+    if file.tell():
+        raise SystemExit(f"{output} already contains data.")
+    writer = csv.writer(file)
+    writer.writerow(["site", "nwsli", "mapping_status", "nwsli_candidates"])
+    for site in sorted(gauges):
+        candidates = sorted(crossref.get(site, ()))
+        if len(candidates) == 1:
+            nwsli, status = candidates[0], "mapped"
+        elif candidates:
+            nwsli, status = "", "ambiguous"
+        else:
+            nwsli, status = "", "unmapped"
+        writer.writerow([site, nwsli, status, ";".join(candidates)])
+        counts[status] += 1
+
+print(f"Saved {output}")
+print(f"Mapped: {counts['mapped']:,}/{len(gauges):,} "
+      f"({counts['mapped'] / len(gauges):.1%})")
+print(f"Unmapped: {counts['unmapped']:,}")
+print(f"Ambiguous: {counts['ambiguous']:,}")
+'@ | python -I -B -
